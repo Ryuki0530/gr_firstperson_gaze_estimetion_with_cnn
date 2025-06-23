@@ -1,6 +1,8 @@
 import cv2
 import os
 
+PRINT_LOG = True
+
 def extract_frames_from_video(video_path, output_dir, frame_interval=1):
     """
     動画ファイルからフレームを抽出して保存
@@ -28,6 +30,8 @@ def extract_frames_from_video(video_path, output_dir, frame_interval=1):
             filename = f"frame_{saved_count:05d}.jpg"
             path = os.path.join(output_dir, filename)
             cv2.imwrite(path, frame)
+            if PRINT_LOG:
+                print("frameNumber:"+str(saved_count)+" saved")
             saved_count += 1
 
         frame_count += 1
