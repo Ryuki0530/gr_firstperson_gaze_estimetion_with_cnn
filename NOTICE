@@ -1,0 +1,14 @@
+# Third-party licenses
+
+This project includes the following third-party Python libraries:
+
+- PyTorch: BSD-style License – https://github.com/pytorch/pytorch
+- torchvision: BSD-style License – https://github.com/pytorch/vision
+- OpenCV: Apache License 2.0 – https://github.com/opencv/opencv
+- NumPy: BSD 3-Clause – https://github.com/numpy/numpy
+- pandas: BSD 3-Clause – https://github.com/pandas-dev/pandas
+- tqdm: MIT License – https://github.com/tqdm/tqdm
+- matplotlib: PSF License – https://github.com/matplotlib/matplotlib
+- Pillow: HPND License – https://github.com/python-pillow/Pillow
+
+Each library retains its own license and copyright.
