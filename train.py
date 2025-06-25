@@ -1,3 +1,5 @@
+import argparse
+import os
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -7,12 +9,20 @@ from utils.dataset import GazeDataset
 from torchvision import transforms
 from tqdm import tqdm
 
+# --- 引数のパース ---
+parser = argparse.ArgumentParser()
+parser.add_argument('--epochs', type=int, default=5, help='Number of training epochs')
+args = parser.parse_args()
+
 # --- ハイパーパラメータ ---
 BATCH_SIZE = 32
-EPOCHS = 20
+EPOCHS = args.epochs
 LEARNING_RATE = 1e-4
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+MODEL_SAVE_DIR = "models/results"
+os.makedirs(MODEL_SAVE_DIR, exist_ok=True)
 print(f"Using device: {DEVICE}")
+
 # --- データセットの準備 ---
 train_dataset = GazeDataset(
     image_dir="data/frames",
@@ -35,7 +45,7 @@ for epoch in range(EPOCHS):
     running_loss = 0.0
     for images, labels in tqdm(train_loader, desc=f"Epoch {epoch+1}/{EPOCHS}"):
         images = images.to(DEVICE)
-        labels = labels.to(DEVICE)  # labels はすでに Tensor（[batch_size, 2]）
+        labels = labels.to(DEVICE)
 
         optimizer.zero_grad()
         outputs = model(images)
@@ -47,5 +57,5 @@ for epoch in range(EPOCHS):
     avg_loss = running_loss / len(train_loader)
     print(f"Epoch [{epoch+1}/{EPOCHS}], Loss: {avg_loss:.4f}")
 
-    # モデル保存（任意）
-    torch.save(model.state_dict(), f"gaze_model_epoch{epoch+1}.pth")
+    save_path = os.path.join(MODEL_SAVE_DIR, f"gaze_model_epoch{epoch+1}.pth")
+    torch.save(model.state_dict(), save_path)
